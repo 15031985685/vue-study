@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>事件修饰符</title>
+</head>
+<body>
+    <div id="app">
+        <ul @click.self="handleUlClick">vue 修饰符self只有点击自身才生效,点击子集无法触发
+            <li @click="handleLiClick()">没有阻止事件冒泡</li>
+            <li @click="handleLiClick1($event)">原声js阻止冒泡</li>
+            <li @click.stop="handleLiClick()">vue 修饰符stop阻止冒泡</li>
+            <li @click.once="handleLiClick()">vue 修饰符once只点击一次</li>
+        </ul>
+       <a href="http://fanyi.youdao.com/" @click="handleAClick1($event)">原声js阻止默认事件</a><br>
+       <a href="http://fanyi.youdao.com/" @click.prevent="handleAClick()">vue 修饰符prevent阻止默认事件</a>
+       <br><br><hr>
+       <br><br>
+       <h2>keyup</h2>
+       <input type="text" @keyup="handleKeyup1($event)"> 原声js方法
+       <input type="text" @keyup.13="handleKeyup()"> vue方法vue
+    </div>
+    <script>
+        let vm = new Vue({
+            el:"#app",
+            data:{
+
+            },
+            methods:{
+                handleUlClick(){
+                    console.log('点击了Ul')
+                },
+                handleLiClick1(event){
+                    event.stopPropagation();
+                    console.log('点击了Li')
+                },
+                handleLiClick(){
+                    console.log('点击了Li')
+                },
+                handleAClick1(event){
+                    event.preventDefault();
+                    console.log('点击了a标签')
+                },
+                handleAClick(){
+                    console.log('点击了a标签')
+                },
+                handleKeyup1(event){
+                    if(event.keyCode == '13'){
+                        console.log('回车键')
+                    }
+                },
+                handleKeyup(){
+                    console.log('回车键')
+                }
+            }
+        })
+    </script>
+</body>
+</html>

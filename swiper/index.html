@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="swiper/css/swiper.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="swiper/js/swiper.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>动态组件</title>
+</head>
+<body>
+    <div id="app">
+        <swiper :name="which">
+            <div class="swiper-slide" v-for="(data,index) in dataList" :key="data.id" v-swiper="{
+                index:index,
+                length:dataList.length
+            }">
+               <img :src="data.img | replaceUrl" alt="data.nm">
+            </div>
+        </swiper> 
+    </div>   
+    <script>
+        Vue.component('swiper',{  
+            template:`<div :class="'swiper-container ' + name ">
+                        <div class="swiper-wrapper">
+                            <slot></slot>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                </div>`,
+              props:['name'],
+        })
+        Vue.filter('replaceUrl',function(data){  // 过滤器
+            return data.replace('w.h','120.180')
+        })
+        Vue.directive('swiper',{
+            inserted(el,bind){
+                if(bind.value.index === bind.value.length - 1){
+                    console.log('初始化')
+                    // 指令初始化
+                    new Swiper ('.aaa',{
+                        // direction: 'vertical'
+                        loop:true,
+                            // 如果需要分页器
+                        pagination: {
+                            el: '.swiper-pagination',
+                        }
+                    })
+                }
+            }
+        })
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                dataList:[],
+                which:'aaa'
+            },
+            mounted(){
+                axios.get('move.json').then(res=>{
+                    console.log(res.data.coming);
+                    this.dataList = res.data.coming
+                }).catch(res=>{
+                    console.log(res)
+                })
+            }
+        })
+    </script>
+</body>
+</html>

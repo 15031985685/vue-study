@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>组件子传父</title>
+</head>
+<body>
+    <div id="app">
+        父组件
+        <my-number @number="handleClick($event)"></my-number>
+        <p>{{message}}</p>
+        <br>
+        <hr>
+        <br>
+        子组件控制父组件显示隐藏
+        <child-btn @showevent="handleShow()"></child-btn>
+        <p v-show="isShow" style="background: #ff0000;width: 120px;">111111111111  111111111111    111111111111  </p>
+    </div>
+    <script>
+         Vue.component("my-number",{ //子组件
+            template:`<div><button @click="getNumber()">点击获取</button></div>`,
+            data(){
+                return{
+                    number:1000
+                }
+            },
+            methods:{
+                getNumber(){
+                    this.$emit("number",this.number)
+                }
+            },
+        })
+        Vue.component("child-btn",{ //子组件
+            template:`<div><button @click="getNumber()">显示隐藏</button></div>`,
+            data(){
+                return{
+                    number:1000
+                }
+            },
+            methods:{
+                getNumber(){
+                    this.$emit("showevent",this.number)
+                }
+            },
+        })
+
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                message:"",
+                isShow:true
+            },
+            methods:{
+                handleClick(ev){
+                    this.message = ev
+                },
+                handleShow(){
+                    this.isShow = !this.isShow
+                }
+            }
+        })
+
+       
+    </script>
+</body>
+</html>

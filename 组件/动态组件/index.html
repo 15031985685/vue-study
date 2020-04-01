@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>动态组件</title>
+</head>
+<body>
+    <div id="app">
+        <button @click="who ='index'">首页</button>
+        <button @click="who ='list'">列表</button>
+        <button @click="who ='search'">搜索</button>
+        <component :is="who"></component>
+       <hr>
+       <keep-alive>
+        <component :is="who"></component>
+   </keep-alive>
+    </div>
+    <script>
+        /**
+          *<component> 元素，动态地绑定多个组件到它的 is 属性  
+          *<keep-alive> 保留状态，避免重新渲染
+        **/
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                who:"index",
+            },
+            methods:{
+                handleClick(ev){
+                    this.message = ev
+                },
+                handleShow(){
+                    this.isShow = !this.isShow
+                }
+            },
+            components:{
+                "index":{
+                    template:`<h3>首页</h3>`
+                },
+                "list":{
+                    template:`<h3>列表</h3>`
+                },
+                "search":{
+                    template:`<div>
+                        <h3>搜索</h3>
+                        <input type="text" />
+                    </div>`
+                }
+            }
+        })
+
+       
+    </script>
+</body>
+</html>

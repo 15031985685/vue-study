@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>表单控件绑定</title>
+</head>
+<body>
+    <div id="app">
+        <h2>简单的文本框绑定</h2>
+        <input type="text" v-model="myText">
+        <textarea name="" v-model="myText"></textarea>
+        <p>{{myText}}</p>
+        <hr>
+        <h2>一个复选按钮绑定</h2>
+        <input type="checkbox" name="" v-model="isAgreen" id="">
+        <p v-if="isAgreen">同意协议</p>
+        <p v-else>不同意协议</p>
+        <hr>
+        <h2>多个复选按钮</h2>
+        兴趣爱好是：
+        <ul>
+            <li><input type="checkbox" v-model="singleArr" value="游泳">游泳</li>
+            <li><input type="checkbox" v-model="singleArr" value="滑冰">滑冰</li>
+            <li><input type="checkbox" v-model="singleArr" value="长跑">长跑</li>
+        </ul>
+        <p v-if="singleArr.length != 0">{{singleArr}}</p>
+        <hr>
+        <h2>多个单选按钮</h2>
+        性别：
+        <ul>
+            <li><input type="radio" name="sex" v-model="sexArr" value="男">男</li>
+            <li><input type="radio" name="sex" v-model="sexArr" value="女">女</li>
+        </ul>
+        <p>{{sexArr}}</p>
+    </div>
+
+    <script>
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                myText:"",
+                isAgreen:false,
+                singleArr:[],
+                sexArr:""
+            }
+        })
+
+    </script>
+</body>
+</html>

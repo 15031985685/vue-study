@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>购物车</title>
+</head>
+<body>
+    <div id="app">
+        全选<input type="checkbox" name="all" v-model="isAll" id="" @change="allCheck()"> 
+        <hr>
+        <ul>
+            <li v-for="(data,index) of dataList" :key="data.id">
+                <input type="checkbox" v-model="checkArr" name="checkbox" :value="data" @change="handleCheck()">
+                {{data}}
+                <button @click="handleDel(data,index)">-</button>
+                {{data.number}}
+                <button @click="data.number++">+</button>
+            </li>
+        </ul>
+        {{checkArr}}
+        <p>总金额：{{countAmt()}}</p>
+    </div>
+    <script>
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                dataList:[
+                    {
+                        name:"商品1",
+                        price:10,
+                        number:1,
+                        id:"1",
+                    },
+                    {
+                        name:"商品2",
+                        price:20,
+                        number:2,
+                        id:"2",
+                    },
+                    {
+                        name:"商品3",
+                        price:30,
+                        number:3,
+                        id:"3",
+                    }
+                ],
+                checkArr:[],
+                isAll:false
+            },
+            methods:{
+                countAmt(){
+                    let amt = 0;
+                    for(var i=0;i<this.checkArr.length;i++){
+                        amt+=this.checkArr[i].price*this.checkArr[i].number;
+                    }
+                    return amt
+                },
+                handleDel(item,index){
+                    let number = item.number;
+                    if(number === 1){
+                        alert("是否删除")
+                        var dataList = this.dataList;
+                        dataList.splice(index,1);
+                        this.checkArr.splice(this.checkArr.indexOf(item),1)
+                    }else{
+                        number -- 
+                    }
+                    item.number = number;
+                },
+                allCheck(){
+                    let flag = this.isAll;
+                    if(flag){
+                        this.checkArr = this.dataList
+                    }else{
+                        this.checkArr = []
+                    }
+                },
+                handleCheck(){
+                  if(this.checkArr.length === this.dataList.length){
+                      this.isAll = true;
+                  }else{
+                      this.isAll = false;
+                  }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

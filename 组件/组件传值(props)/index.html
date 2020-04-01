@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>组件父传子</title>
+</head>
+<body>
+    <div id="app">
+        <my-name :name="name1" :show="true"></my-name>
+        <my-name :name="name2" :show="true"></my-name>
+        <my-name :name="name3" :show="true"></my-name>
+    </div>
+    <script>
+        Vue.component("my-name",{
+            template:`<h2 v-show="show">{{name}}</h2>`, 
+            props:{  //限制接收的数据类型 Number,String,Boolean,Array,Object,Function,null(不限制类型)
+                name:String,  
+                show:Boolean
+            }
+        });
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                name1:"张三",
+                name2:"李四",
+                name3:"赵五",
+            }
+        })
+    </script>
+</body>
+</html>

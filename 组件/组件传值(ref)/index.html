@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>组件父传子</title>
+</head>
+<body>
+    <div id="app">
+        <input type="text" ref="mytext" @keyup.13="handleClick">
+        <button @click="handleClick">重命名</button>
+        <my-name ref="myname"></my-name>
+    </div>
+    <script>
+        Vue.component("my-name",{
+            template:`<h2>{{name}}</h2>`, 
+            data(){
+                return{
+                    name:"张三"
+                }
+            },
+            methods:{
+                reName(names){
+                    this.name = names
+                }
+            }
+        });
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                name1:"张三",
+            },
+            methods:{
+                handleClick(){
+                     /*
+                        1. ref放在标签上， 拿到的是原生节点
+                        2. ref放在组件上， 拿到的是组件对象
+                    */
+                    let value = this.$refs.mytext.value;
+                    let child = this.$refs.myname;
+                    child.reName(value)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

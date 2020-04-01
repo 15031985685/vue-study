@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>axios</title>
+</head>
+<body>
+    <div id="app">
+       使用计算属性<br>
+       1.  依赖的状态改变了 ，计算属性 会重新计算一遍 2. 计算属性会缓存
+       <p>{{resamessage}}</p>
+       <p>{{resamessage}}</p>
+       <hr>
+       使用methods方法
+       <p>{{resamessageMethods()}}</p>
+       <p>{{resamessageMethods()}}</p>
+       <hr>
+       <h4><span style="color: red;">两者区别:</span><br>
+        1、计算属性无论调用多少次，只调用一次节省性能，方法会随着每次调用而调用<br>
+        2、调用计算属性不用(),方法必须加()
+        </h4>
+    </div>
+    <script>
+        let vm =new Vue({
+            el:"#app",
+            data:{
+               message:"douguiqiang"
+            },
+            methods:{
+                resamessageMethods(){
+                    console.log("使用methods方法")
+                    return this.message.split("").reverse().join("");
+                }
+            },
+            computed:{
+                resamessage(){
+                    console.log('使用计算属性')
+                    return this.message.split("").reverse().join("");
+                }
+            }
+        })
+    </script>
+</body>
+</html>

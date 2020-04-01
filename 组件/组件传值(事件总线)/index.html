@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>非父子组件传值</title>
+</head>
+<body>
+    <div id="app">
+        <admin></admin> 
+        <user ref="myname"></user>
+    </div>
+    <script>
+        var bus = new Vue();
+
+        Vue.component("admin",{
+            template:`<div> 
+            <input type="text" ref="mytext" @keyup.13="handleClick">
+            <button @click="handleClick">提交</button>
+            </div>`,
+            methods:{
+                handleClick(){
+                    bus.$emit("message",this.$refs.mytext.value)
+                }
+            }
+        })
+        Vue.component("user",{
+            template:`<h2>我接受到的信息是:{{text}}</h2>`, 
+            data(){
+                return{
+                    text:""
+                }
+            },
+            mounted(){
+                bus.$on("message",(data)=>{
+                    console.log(data)
+                    this.text = data
+                })
+            }
+        });
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                name1:"张三",
+            },
+            methods:{
+                handleClick(){
+                     /*
+                        1. ref放在标签上， 拿到的是原生节点
+                        2. ref放在组件上， 拿到的是组件对象
+                    */
+                    let value = this.$refs.mytext.value;
+                    let child = this.$refs.myname;
+                    child.reName(value)
+                }
+            }
+        })
+    </script>
+</body>
+</html>

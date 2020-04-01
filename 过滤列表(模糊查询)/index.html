@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>过滤列表</title>
+</head>
+<body>
+    <div id="app">
+        <h2>更简洁的方法去计算属性中</h2>
+        <input type="text" @input="handleInput()" v-model="text">
+        <ul>
+            <li v-for="(item,index) in dataList" :key="item">
+                {{item}}
+            </li>   
+        </ul>
+    </div>
+    <script>
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                'text':'',
+                'dataList':["aaa","bbb","ccc","ddd","add","cee","eee"],
+                'list':["aaa","bbb","ccc","ddd","add","cee","eee"]         
+            },
+            methods:{
+                handleInput:function(){
+                    let newList = this.list.filter(item=>item.indexOf(this.text)>-1);
+                    this.dataList = newList
+                }
+            }
+
+        })
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>过渡</title>
+    <style>
+        .fade-enter-active,.fade-leave-active{
+            transition: all 1.5s;
+        }
+        .fade-enter,.fade-leave-to{
+            opacity: 0;
+            transform: translateX(100px);
+        }
+        .fadeanimate-enter-active{
+            animation: fadeO 1.5S linear;
+        }
+        .fadeanimate-leave-active{
+            animation: fadeO 1.5S linear reverse;
+        }
+        @keyframes fadeO{
+            0%{
+                opacity: 0;
+                transform: translateX(100px);  
+            }
+            100%{
+                opacity: 1;
+                transform: translateX(0);  
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="isShow =!isShow">点击</button>
+        <transition name="fade" mode="out-in">
+            <div v-if="isShow" key="1">1111111111111</div>
+            <div v-else key="2">1111111111111</div>
+        </transition>
+        <hr>
+        组件过渡
+        <hr>
+        <transition name="fadeanimate" mode="out-in">
+            <keep-alive>
+                <component :is="message"></component>
+            </keep-alive>
+        </transition>
+        <button @click="message = 'aaa'">aaa</button>
+        <button @click="message = 'bbb'">bbb</button>
+        <hr>
+        列表过度
+        <hr>
+        <input type="text" v-model="mytext">
+        <button @click="handleAdd()">add</button>
+      
+        <transition-group name="fadeanimate" mode="out-in" tag="ul">
+            <li v-for="(data,index) in list" :key="data">
+                {{data}}
+                <button @click="handleDel(data)">delete</button>
+            </li>
+        </transition-group>
+    </div>
+    <script>
+         Vue.component('aaa',{
+            template:`<div>aaaaaaaaaaaaaa</div>`
+        })
+        Vue.component('bbb',{
+            template:`<div>bbbbbbbbbb</div>`
+        })
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                isShow:true,
+                message:'aaa',
+                mytext:"",
+                list:[]
+            },
+            methods:{
+                handleAdd(){
+                    this.list.push(this.mytext)
+                },
+                handleDel(item){
+                    let list = this.list;
+                    this.list.splice(this.list.indexOf(item),1)
+                }
+            }
+        })
+       
+    </script>
+</body>
+</html>

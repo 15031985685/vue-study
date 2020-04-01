@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <title>axios</title>
+</head>
+<body>
+    <div id="app">
+        <button @click="hadleClick()">发起请求</button>
+        <ul>
+            <li v-for="data in dataList" :key="data.name">
+                <h3> {{data.name}}</h3>
+               
+                <img :src="data.poster" alt="">
+            </li>
+        </ul>
+        
+    </div>
+    <script>
+        let vm =new Vue({
+            el:"#app",
+            data:{
+                dataList:[]
+            },
+            methods:{
+                hadleClick(){
+                    axios.get('./json/test.json')
+                    .then(res=>{
+                        console.log(res.data.data.films) //自动包裹一层data
+                        this.dataList = res.data.data.films
+                    })
+                    .catch(err=>{
+                        console.log(err)
+                    })
+                  
+                }
+            }
+        })
+    </script>
+</body>
+</html>

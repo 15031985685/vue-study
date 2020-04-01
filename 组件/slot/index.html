@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>slot</title>
+</head>
+<body>
+    <div id="app">
+        简单的插槽
+        <swiper>
+            <li v-for="data of dataList" :key="data">{{data}}</li>
+        </swiper>
+        <hr>
+        具名的插槽
+        <my-name>
+            <h3 slot="name1">张三</h3>
+            <h3 slot="name3">李四</h3>
+            <h3 slot="name2">王五</h3>
+        </my-name> 
+    </div>
+    <script>
+        Vue.component('swiper',{
+            template:`<ul><slot></slot></ul>`
+        })
+        Vue.component('my-name',{
+            template:`<div>
+                <slot name="name1"></slot>
+                <slot name="name2"></slot>
+                <slot name="name3"></slot>
+            </div>`
+        })
+        let vm = new Vue({
+            el:"#app",
+            data:{
+                dataList:['1111111','22222222','3333333333']
+            }
+        })
+       
+    </script>
+</body>
+</html>

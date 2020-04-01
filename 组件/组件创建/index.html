@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <my-name></my-name>
+        <hr>
+        <my-name></my-name>
+        <hr>
+        <my-like></my-like> 
+        这里调用失败，因为my-like是my-name的子组件只能在内部使用
+    </div>
+    <script>
+        Vue.component("my-name",{  //全局注册，任何地方都能调用
+            template:`
+                <div> 
+                    <h2>{{myName}}</h2>
+                    <my-like></my-like>
+                </div>
+                `,
+            data(){
+                return {
+                    myName:"窦桂强",
+                }
+            },
+            components:{
+                "my-like":{ //局部注册只有在my-name组件中有效
+                    template:`<p>读书、打羽毛球</p>`
+                }
+            }
+        })
+        let vm = new Vue({
+            el:"#app",
+        })
+    </script>
+</body>
+</html>
