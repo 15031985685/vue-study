@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			function buyIngredient(resolve,reject) {
+			    setTimeout(function(){
+			        resolve(['西红柿','鸡蛋','油菜']);
+			    },3000)
+			}
+			function makeFood(resolve,reject){
+			    setTimeout(function(){
+			        //对做好的饭进行下一步处理。
+			        resolve ({
+			            主食: '米饭',
+			            菜: ['西红柿炒鸡蛋','清炒油菜']
+			        })
+			    },3000) 
+			}
+			function sedFood(resolve,reject){
+			    //对送饭的结果进行下一步处理
+			    setTimeout(function(){
+			        resolve('已送到');
+			    },3000)
+			}
+			function callMe(resolve,reject){
+			   resolve('任务完成')
+			}
+			let p1 = new Promise(buyIngredient)
+			.then(res=>{
+				console.log(res);
+				return new Promise(makeFood)
+			})
+			.then(res => {
+				console.log(res);
+				return new Promise(sedFood)
+			})
+			.then(res => {
+				console.log(res);
+				return new Promise(callMe)
+			}).then(res => {
+				console.log(res);
+			})
+			
+			
+			
+			
+		</script>
+	</body>
+</html>
